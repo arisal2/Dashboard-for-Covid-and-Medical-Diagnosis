@@ -5,10 +5,16 @@ class DashboardsController < ApplicationController
   def world_data
     @world_data = ReportService.process_table_data('countries')
     @general_data = ReportService.process_table_data('all')
-  rescue ReportService::ReportServiceError => e
-    flash[:error] = e.message.to_s
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { world_data: @world_data, general_data: @general_data } }
+    end
   rescue StandardError => e
-    flash[:error] = e.message.to_s
+    respond_to do |format|
+      format.html { flash[:error] = e.message.to_s }
+      format.json { render json: { error: e.message }, status: :bad_request }
+    end
   end
 
   def vaccination

@@ -13,6 +13,7 @@ RSpec.describe PotentialUser, type: :model do
         csv_file = build_csv(described_class.column_names, 3)
         allow(file).to receive(:path)
         allow(File).to receive(:open).and_return(csv_file)
+        described_class.destroy_all
         expect { subject.import(file) }.to change { described_class.all.size }.by(3)
       end
     end

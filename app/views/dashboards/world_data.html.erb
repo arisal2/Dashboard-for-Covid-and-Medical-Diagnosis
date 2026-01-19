@@ -1,80 +1,149 @@
-<div class="container-fluid col-md-11">
-  <div class="row top-header">
-    <br />
-    <h6> <%= fa_icon "line-chart" %> Data on COVID-19 vaccinations about the Coronavirus Pandemic. Last update: <%= latest_update %></h6>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-md-3 world-data">
-      <%= fa_icon "ambulance" %>&nbsp;&nbsp;Currently Active: <span class="positive"><%= world_data_top_section('active') %></span>
-    </div>
-    <div class="col-md-3 world-data">
-      <%= fa_icon "file" %>&nbsp;&nbsp;Total Confirmed: <span class="new-case"><%= world_data_top_section('cases') %></span>
-    </div>
-    <div class="col-md-3 world-data">
-      <%= fa_icon "heartbeat" %>&nbsp;&nbsp;Total Recovered: <span class="favorable"><%= world_data_top_section('recovered') %></span>
-    </div>
-    <div class="col-md-3 world-data">
-      <%= fa_icon "bed" %>&nbsp;&nbsp;Total Deaths: <span class="critical"><%= world_data_top_section('deaths') %></span>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <h2 class="mb-1">
+          <i class="fa-solid fa-virus-covid text-danger"></i>
+          COVID-19 Dashboard
+        </h2>
+        <p class="text-muted mb-0">
+          <i class="fa-regular fa-clock"></i>
+          Last updated: <%= latest_update %>
+        </p>
+      </div>
     </div>
   </div>
-  <br />
-  <div class="row">
-    <h6> <%= fa_icon "table" %> Reported Cases by Country, Territory, or Conveyance </h6>
+
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stats-card animate-fade-in-up">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">Currently Active</p>
+            <h3 class="stats-value text-warning mb-0"><%= world_data_top_section('active') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-primary text-white">
+            <i class="fa-solid fa-truck-medical"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stats-card animate-fade-in-up" style="animation-delay: 0.1s">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">Total Confirmed</p>
+            <h3 class="stats-value text-info mb-0"><%= world_data_top_section('cases') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-info text-white">
+            <i class="fa-solid fa-file-medical"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stats-card animate-fade-in-up" style="animation-delay: 0.2s">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">Total Recovered</p>
+            <h3 class="stats-value text-success mb-0"><%= world_data_top_section('recovered') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-success text-white">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stats-card animate-fade-in-up" style="animation-delay: 0.3s">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">Total Deaths</p>
+            <h3 class="stats-value text-danger mb-0"><%= world_data_top_section('deaths') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-danger text-white">
+            <i class="fa-solid fa-bed-pulse"></i>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <br />
-  <table id="world-data" class="table table-hover" %>
-    <thead>
-      <tr>
-        <th>Flags</th>
-        <th>Codes</th>
-        <th>Country</th>
-        <th>New Cases</th>
-        <th>New Deaths</th>
-        <th>New recovered</th>
-        <th>Active</th>
-        <th>Critical</th>
-        <th>Total Confirmed</th>
-        <th>Total Recovered</th>
-        <th>Total Deaths</th>
-        <th>Total Tests</th>
-        <th>Population</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @world_data&.each do |data| %>
-      <tr>
-        <td><%= image_tag(data['countryInfo']['flag'], height: '32', width: '32', alt: data['country'], delimiter: ',')%></td>
-        <td><%= data['countryInfo']['iso3'] %></td>
-        <td><%= data['country'] %></td>
-        <td class="new-case"><%= number_with_delimiter("+#{data['todayCases']}", delimiter: ',')%></td>
-        <td class="critical"><%= number_with_delimiter("+#{data['todayDeaths']}", delimiter: ',')%></td>
-        <td class="favorable"><%= number_with_delimiter("+#{data['todayRecovered']}", delimiter: ',')%></td>
-        <td class="positive"><%= number_with_delimiter(data['active'], delimiter: ',')%></td>
-        <td class="critical"><%= number_with_delimiter(data['critical'], delimiter: ',')%></td>
-        <td><%= number_with_delimiter(data['cases'], delimiter: ',')%></td>
-        <td><%= number_with_delimiter(data['recovered'], delimiter: ',')%></td>
-        <td><%= number_with_delimiter(data['deaths'], delimiter: ',')%></td>
-        <td><%= number_with_delimiter(data['tests'], delimiter: ',')%></td>
-        <td><%= number_with_delimiter(data['population'], delimiter: ',')%></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+
+  <!-- Data Table Card -->
+  <div class="card">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0">
+        <i class="fa-solid fa-table text-primary"></i>
+        Cases by Country
+      </h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table id="world-data" class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Flag</th>
+              <th>Code</th>
+              <th>Country</th>
+              <th>New Cases</th>
+              <th>New Deaths</th>
+              <th>Recovered</th>
+              <th>Active</th>
+              <th>Critical</th>
+              <th>Total Cases</th>
+              <th>Total Deaths</th>
+              <th>Tests</th>
+              <th>Population</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @world_data&.each do |data| %>
+            <tr>
+              <td>
+                <%= image_tag(data['countryInfo']['flag'], height: '24', width: '36', 
+                    alt: data['country'], class: 'rounded shadow-sm') rescue nil %>
+              </td>
+              <td><span class="badge bg-secondary"><%= data['countryInfo']['iso3'] %></span></td>
+              <td class="fw-semibold"><%= data['country'] %></td>
+              <td><span class="badge bg-warning text-dark">+<%= number_with_delimiter(data['todayCases']) %></span></td>
+              <td><span class="badge bg-danger">+<%= number_with_delimiter(data['todayDeaths']) %></span></td>
+              <td><span class="badge bg-success">+<%= number_with_delimiter(data['todayRecovered']) %></span></td>
+              <td class="text-warning fw-bold"><%= number_with_delimiter(data['active']) %></td>
+              <td class="text-danger"><%= number_with_delimiter(data['critical']) %></td>
+              <td><%= number_with_delimiter(data['cases']) %></td>
+              <td><%= number_with_delimiter(data['deaths']) %></td>
+              <td><%= number_with_delimiter(data['tests']) %></td>
+              <td class="text-muted"><%= number_with_delimiter(data['population']) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
-
 <script>
-  $(document).ready(function() {
-    $("#world-data").dataTable({
-      select: true,
-      responsive: true,
-      scrollX: true,
-      dom: 'Bfrtip',
-      buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-      ],
-      order: [[ 3, "desc" ]]
-    });
+document.addEventListener('turbo:load', function() {
+  if ($.fn.DataTable.isDataTable('#world-data')) {
+    $('#world-data').DataTable().destroy();
+  }
+  
+  $('#world-data').DataTable({
+    responsive: true,
+    scrollX: true,
+    pageLength: 25,
+    order: [[3, 'desc']],
+    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
+    language: {
+      search: '<i class="fa-solid fa-search"></i>',
+      searchPlaceholder: 'Search countries...'
+    }
   });
+});
 </script>

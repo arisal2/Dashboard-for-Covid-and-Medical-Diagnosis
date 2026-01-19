@@ -1,71 +1,103 @@
-<div class="container-fluid col-md-11">
-	<div class="row top-header">
-		<h6> <%= fa_icon "line-chart" %> Data on COVID-19 vaccinations about the Coronavirus Pandemic. </h6>
-	</div>
-	<br />
-	<div class="row">
-		<div class="col-md-3 vaccine-data">
-			<%= fa_icon "plus-square" %>&nbsp;&nbsp;Total Vaccinations: <span class="positive"><%= vaccination_top_section('total_vaccinations') %></span>
-		</div>
-		<div class="col-md-3 vaccine-data">
-			<%= fa_icon "users" %>&nbsp;&nbsp;Total Population: <span class="new-case"><%= vaccination_top_section('population') %></span>
-		</div>
-	</div>
-	<br />
-	<div class="row">
-		<h6> <%= fa_icon "table" %> Reported Cases by Country, Territory, or Conveyance </h6>
-	</div>
-	<br />
-	<table id="vaccine-data" class="table table-hover" %>
-		<thead>
-			<tr>
-				<th>Continent</th>
-				<th>Location</th>
-				<th>New Vaccinations</th>
-				<th>People Vaccinated</th>
-				<th>People Fully Vaccinated</th>
-				<th>Total Vaccinations</th>
-				<th>New tests</th>
-				<th>Total tests</th>
-				<th>Population</th>
-				<th>Median Age</th>
-				<th>% Aged 65 Older</th>
-				<th>% Aged 70 Older</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @vaccination_data&.each do |data| %>
-			<tr>
-				<td><%= data.second["continent"]%></td>
-				<td><%= data.second["location"]%></td>
-				<td class="positive"><%= number_with_delimiter("#{data.second["new_vaccinations"]}", delimiter: ',')%></td>
-				<td class="favorable"><%= number_with_delimiter(data.second["people_vaccinated"], delimiter: ',')%></td>
-				<td class="favorable"><%= number_with_delimiter(data.second["people_fully_vaccinated"], delimiter: ',')%></td>
-				<td class="positive"><%= number_with_delimiter(data.second["total_vaccinations"], delimiter: ',')%></td>
-				<td class="positive"><%= number_with_delimiter("#{data.second["new_tests"]}")%></td>
-				<td class="favorable"><%= number_with_delimiter(data.second["total_tests"], delimiter: ',')%></td>
-				<td><%= number_with_delimiter(data.second["population"], delimiter: ',')%></td>
-				<td><%= number_with_delimiter(data.second["median_age"], delimiter: ',')%></td>
-				<td><%= number_with_delimiter(data.second["aged_65_older"], delimiter: ',')%></td>
-				<td><%= number_with_delimiter(data.second["aged_70_older"], delimiter: ',')%></td>
-			</tr>
-			<% end %>
-		</tbody>
-	</table>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h2 class="mb-1">
+      <i class="fa-solid fa-syringe text-success"></i>
+      Vaccination Data
+    </h2>
+    <p class="text-muted mb-0">Global COVID-19 vaccination statistics</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-6">
+      <div class="stats-card animate-fade-in-up">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">Total Vaccinations Worldwide</p>
+            <h3 class="stats-value text-success mb-0"><%= vaccination_top_section('total_vaccinations') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-success text-white">
+            <i class="fa-solid fa-syringe"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 col-md-6">
+      <div class="stats-card animate-fade-in-up" style="animation-delay: 0.1s">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="stats-label mb-1">World Population</p>
+            <h3 class="stats-value text-primary mb-0"><%= vaccination_top_section('population') %></h3>
+          </div>
+          <div class="stats-icon bg-gradient-primary text-white">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Table Card -->
+  <div class="card">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0">
+        <i class="fa-solid fa-table text-primary"></i>
+        Vaccination by Country
+      </h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table id="vaccine-data" class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Continent</th>
+              <th>Location</th>
+              <th>New Vaccinations</th>
+              <th>People Vaccinated</th>
+              <th>Fully Vaccinated</th>
+              <th>Total Vaccinations</th>
+              <th>Population</th>
+              <th>Median Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @vaccination_data&.each do |data| %>
+            <tr>
+              <td><span class="badge bg-secondary"><%= data.second["continent"] %></span></td>
+              <td class="fw-semibold"><%= data.second["location"] %></td>
+              <td><span class="badge bg-info"><%= number_with_delimiter(data.second["new_vaccinations"]) %></span></td>
+              <td class="text-success"><%= number_with_delimiter(data.second["people_vaccinated"]) %></td>
+              <td class="text-success fw-bold"><%= number_with_delimiter(data.second["people_fully_vaccinated"]) %></td>
+              <td><%= number_with_delimiter(data.second["total_vaccinations"]) %></td>
+              <td class="text-muted"><%= number_with_delimiter(data.second["population"]) %></td>
+              <td><%= data.second["median_age"] %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
-
 <script>
-	$(document).ready(function() {
-		$("#vaccine-data").dataTable({
-			select: true,
-			responsive: true,
-			scrollX: true,
-			dom: 'Bfrtip',
-			buttons: [
-				'copy', 'csv', 'excel', 'pdf', 'print'
-			],
-			order: [[ 1, "asc" ]]
-		});
-	});
+document.addEventListener('turbo:load', function() {
+  if ($.fn.DataTable.isDataTable('#vaccine-data')) {
+    $('#vaccine-data').DataTable().destroy();
+  }
+  
+  $('#vaccine-data').DataTable({
+    responsive: true,
+    scrollX: true,
+    pageLength: 25,
+    order: [[5, 'desc']],
+    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
+    language: {
+      search: '<i class="fa-solid fa-search"></i>',
+      searchPlaceholder: 'Search locations...'
+    }
+  });
+});
 </script>

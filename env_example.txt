@@ -1,13 +1,43 @@
-Example .env.dev environment file
-AUTHORIZATION value below is NOT SENSITIVE as it is for api medic sandbox mode only, hence sharing it in this text file.
-COPY FROM LINE 5
+# Fluffy Octo System - Environment Configuration
+# Copy this file to .env.dev and fill in the values
 
+# ===========================================
+# DATABASE (Docker uses defaults, these are for local/CI)
+# ===========================================
+DATABASE_HOST=db
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=password
+
+# ===========================================
+# REDIS
+# ===========================================
+REDIS_URL_SIDEKIQ=redis://redis:6379/1
+
+# ===========================================
+# COVID-19 DATA APIs
+# ===========================================
 DISEASES_API=https://disease.sh/v3/covid-19/
 VACCINATION_API=https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json
 CORONA_TIMELINE_API=https://corona-api.com/timeline
+
+# ===========================================
+# API MEDIC - Medical Diagnosis API
+# Sandbox API - NOT SENSITIVE (for development only)
+# ===========================================
 API_MEDIC_SANDBOX_API_DIAGNOSIS=https://sandbox-healthservice.priaid.ch/diagnosis
 AUTHORIZATION=Bearer abhinavrisal99@gmail.com:O4yqq9B3HNogvNWL64qjPA==
+
+# ===========================================
+# EMAIL / SMTP SETTINGS
+# Required for email functionality
+# ===========================================
 SMTP_ADDRESS=smtp.gmail.com
-SMTP_PASSWORD=
-SMTP_USER_NAME=
-REDIS_URL_SIDEKIQ=redis://redis:6379/1
+SMTP_USER_NAME=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+
+# ===========================================
+# RAILS SETTINGS
+# ===========================================
+RAILS_ENV=development
+RAILS_LOG_TO_STDOUT=true
+SECRET_KEY_BASE=your-secret-key-base-here

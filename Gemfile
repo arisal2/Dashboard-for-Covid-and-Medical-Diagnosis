@@ -3,82 +3,110 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.3'
+ruby '>= 3.2.0', '< 3.3.0'
 
 # Shim to load environment variables from .env into ENV in development.
-gem 'dotenv-rails', require: 'dotenv/rails-now', groups: %i[development test]
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.6'
-# Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
-gem 'puma', '~> 5.6'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
+gem 'dotenv-rails', groups: %i[development test]
 
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 7.1.5'
+
+# Use postgresql as the database for Active Record
+gem 'pg', '~> 1.5'
+
+# Use Puma as the app server
+gem 'puma', '~> 6.4'
+
+# Modern asset pipeline
+gem 'propshaft'
+gem 'importmap-rails'
+
+# Use dartsass for SCSS compilation
+gem 'dartsass-rails', '~> 0.5'
+
+# Hotwire - modern interactive applications
+gem 'turbo-rails'
+gem 'stimulus-rails'
+
+# Build JSON APIs with ease
+gem 'jbuilder', '~> 2.11'
+
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-gem 'devise'
-gem 'faraday'
 
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+# Authentication
+gem 'devise', '~> 4.9'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-gem 'activerecord-import'
-gem 'ajax-datatables-rails'
-gem 'bootstrap', '~> 4.3.1'
-gem 'chartkick'
-gem 'font-awesome-rails'
-gem 'jquery-datatables'
+# HTTP client
+gem 'faraday', '~> 2.9'
+gem 'rack-cors'
+
+# Background jobs
+gem 'connection_pool', '~> 2.4'
+gem 'sidekiq', '~> 7.2'
+gem 'sidekiq-cron', '~> 1.12'
+
+# UI & Frontend
+gem 'bootstrap', '~> 5.3'
+# gem 'sassc-rails', '~> 2.1' # REMOVED: Conflicting with dartsass-rails
+gem 'font-awesome-sass', '~> 6.5'
 gem 'jquery-rails'
-gem 'rubocop-rails', require: false
-gem 'sidekiq'
-gem 'sidekiq-cron'
-gem 'truemail'
+
+# Data tables
+gem 'ajax-datatables-rails', '~> 1.4'
+gem 'jquery-datatables', '~> 1.10'
+
+# Charts
+gem 'chartkick', '~> 5.0'
+
+# Bulk import
+gem 'activerecord-import', '~> 1.5'
+
+# Email validation
+gem 'truemail', '~> 3.3'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 5.0.0'
-  gem 'truemail-rspec', require: false
-end
-
-group :development do
-  gem 'brakeman'
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.3.0'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
-  gem 'webmock'
-end
+gem 'bootsnap', require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+group :development, :test do
+  # Debugging
+  gem 'debug', platforms: %i[mri mingw x64_mingw]
+
+  # Testing
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'rspec-rails', '~> 6.1'
+  gem 'truemail-rspec', require: false
+
+  # Code quality
+  gem 'rubocop-rails', require: false
+end
+
+group :development do
+  gem 'brakeman', require: false
+  
+  # Access an interactive console on exception pages
+  gem 'web-console'
+  
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem 'rack-mini-profiler'
+  
+  gem 'listen', '~> 3.9'
+end
+
+group :test do
+  # System testing
+  gem 'capybara', '~> 3.40'
+  gem 'selenium-webdriver', '~> 4.16'
+  
+  # HTTP mocking
+  gem 'webmock', '~> 3.19'
+  
+  # JUnit format for CI
+  gem 'rspec_junit_formatter', '~> 0.6'
+end

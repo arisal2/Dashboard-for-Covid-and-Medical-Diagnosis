@@ -1,4 +1,139 @@
-<% name = current_user.present? ? current_user.email : 'Stranger' %>
-<div class="container">
-    <h1> WELCOME TO FLUFFY OCTO SYSTEM <h1>
+<% name = current_user.present? ? current_user.email.split('@').first.capitalize : 'Visitor' %>
+
+<div class="container-fluid">
+  <!-- Hero Section -->
+  <div class="row align-items-center py-5" style="min-height: 60vh;">
+    <div class="col-lg-6">
+      <div class="animate-fade-in-up">
+        <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2">
+          <i class="fa-solid fa-virus-covid"></i> COVID-19 Dashboard
+        </span>
+        <h1 class="display-4 fw-bold mb-3" style="line-height: 1.2;">
+          Welcome to<br>
+          <span class="text-primary">Fluffy Octo System</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+          Your comprehensive dashboard for COVID-19 statistics, vaccination data, 
+          world maps, and medical diagnosis tools. Stay informed with real-time data 
+          from trusted sources.
+        </p>
+        
+        <div class="d-flex gap-3 flex-wrap">
+          <%= link_to world_data_dashboards_path, class: 'btn btn-primary btn-lg px-4' do %>
+            <i class="fa-solid fa-chart-line me-2"></i>View Dashboard
+          <% end %>
+          <% unless user_signed_in? %>
+          <%= link_to new_user_session_path, class: 'btn btn-outline-primary btn-lg px-4' do %>
+            <i class="fa-solid fa-right-to-bracket me-2"></i>Sign In
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-6 d-none d-lg-block">
+      <div class="text-center animate-fade-in-up" style="animation-delay: 0.2s;">
+        <!-- Feature Cards -->
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="card border-0 shadow-sm h-100 text-center p-4">
+              <div class="text-primary mb-3">
+                <i class="fa-solid fa-virus-covid fa-3x"></i>
+              </div>
+              <h5>Live Cases</h5>
+              <p class="text-muted small mb-0">Real-time COVID-19 statistics from around the world</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card border-0 shadow-sm h-100 text-center p-4">
+              <div class="text-success mb-3">
+                <i class="fa-solid fa-syringe fa-3x"></i>
+              </div>
+              <h5>Vaccination Data</h5>
+              <p class="text-muted small mb-0">Track vaccination progress globally</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card border-0 shadow-sm h-100 text-center p-4">
+              <div class="text-info mb-3">
+                <i class="fa-solid fa-earth-americas fa-3x"></i>
+              </div>
+              <h5>World Maps</h5>
+              <p class="text-muted small mb-0">Interactive maps with country-level data</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card border-0 shadow-sm h-100 text-center p-4">
+              <div class="text-warning mb-3">
+                <i class="fa-solid fa-stethoscope fa-3x"></i>
+              </div>
+              <h5>Diagnosis</h5>
+              <p class="text-muted small mb-0">AI-powered symptom analysis</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <% if user_signed_in? %>
+  <!-- User Welcome -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="alert alert-success d-flex align-items-center border-0 shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-check fa-2x me-3"></i>
+        <div>
+          <strong>Welcome back, <%= name %>!</strong><br>
+          <small>You have access to all dashboard features including diagnosis tools.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  
+  <!-- Quick Links -->
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <h4 class="mb-3">Quick Access</h4>
+    </div>
+    <%= link_to world_data_dashboards_path, class: 'col-md-3 col-sm-6 text-decoration-none' do %>
+      <div class="stats-card text-center">
+        <div class="stats-icon bg-gradient-danger text-white mx-auto mb-3">
+          <i class="fa-solid fa-truck-medical"></i>
+        </div>
+        <h5 class="mb-1">Active Cases</h5>
+        <p class="text-muted small mb-0">View current case data</p>
+      </div>
+    <% end %>
+    
+    <%= link_to vaccination_dashboards_path, class: 'col-md-3 col-sm-6 text-decoration-none' do %>
+      <div class="stats-card text-center">
+        <div class="stats-icon bg-gradient-success text-white mx-auto mb-3">
+          <i class="fa-solid fa-syringe"></i>
+        </div>
+        <h5 class="mb-1">Vaccinations</h5>
+        <p class="text-muted small mb-0">Global vaccination data</p>
+      </div>
+    <% end %>
+    
+    <%= link_to world_map_dashboards_path, class: 'col-md-3 col-sm-6 text-decoration-none' do %>
+      <div class="stats-card text-center">
+        <div class="stats-icon bg-gradient-info text-white mx-auto mb-3">
+          <i class="fa-solid fa-map"></i>
+        </div>
+        <h5 class="mb-1">World Maps</h5>
+        <p class="text-muted small mb-0">Interactive visualizations</p>
+      </div>
+    <% end %>
+    
+    <%= link_to covid_chart_dashboards_path, class: 'col-md-3 col-sm-6 text-decoration-none' do %>
+      <div class="stats-card text-center">
+        <div class="stats-icon bg-gradient-primary text-white mx-auto mb-3">
+          <i class="fa-solid fa-chart-bar"></i>
+        </div>
+        <h5 class="mb-1">Reports</h5>
+        <p class="text-muted small mb-0">Charts & analytics</p>
+      </div>
+    <% end %>
+  </div>
 </div>

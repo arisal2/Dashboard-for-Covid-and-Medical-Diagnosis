@@ -68,10 +68,9 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    mkdir -p db log tmp && \
+RUN mkdir -p db log tmp && \
+    useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log tmp
-USER rails:rails
 
 # Copy entrypoint
 COPY entrypoint.sh /usr/bin/

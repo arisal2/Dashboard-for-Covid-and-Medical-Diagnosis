@@ -6,6 +6,13 @@ RSpec.describe ApiService do
   describe '#retrieve_data' do
     subject(:service) { described_class.new(params: params) }
 
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('DISEASES_API', nil).and_return('https://disease.sh/v3/covid-19/')
+      allow(ENV).to receive(:fetch).with('VACCINATION_API', nil).and_return('https://example.com/vaccine')
+      allow(ENV).to receive(:fetch).with('CORONA_TIMELINE_API', nil).and_return('https://corona-api.com/timeline')
+    end
+
     describe 'COVID-19 data endpoints' do
       context 'when fetching all world data' do
         let(:params) { 'all' }
@@ -18,7 +25,7 @@ RSpec.describe ApiService do
         end
 
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}all")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/all')
             .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
         end
 
@@ -40,7 +47,7 @@ RSpec.describe ApiService do
         end
 
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}countries")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/countries')
             .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
         end
 
@@ -62,7 +69,7 @@ RSpec.describe ApiService do
         end
 
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}continents")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/continents')
             .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
         end
 
@@ -85,7 +92,7 @@ RSpec.describe ApiService do
       end
 
       before do
-        stub_request(:get, ENV.fetch('VACCINATION_API', 'https://example.com/vaccine'))
+        stub_request(:get, 'https://example.com/vaccine')
           .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -108,7 +115,7 @@ RSpec.describe ApiService do
       end
 
       before do
-        stub_request(:get, ENV.fetch('CORONA_TIMELINE_API', 'https://corona-api.com/timeline'))
+        stub_request(:get, 'https://corona-api.com/timeline')
           .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -125,7 +132,7 @@ RSpec.describe ApiService do
 
       context 'when API returns 500 error' do
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}all")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/all')
             .to_return(status: 500, body: 'Internal Server Error')
         end
 
@@ -139,7 +146,7 @@ RSpec.describe ApiService do
 
       context 'when API returns invalid JSON' do
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}all")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/all')
             .to_return(status: 200, body: 'not valid json')
         end
 
@@ -153,7 +160,7 @@ RSpec.describe ApiService do
 
       context 'when network timeout occurs' do
         before do
-          stub_request(:get, "#{ENV.fetch('DISEASES_API', 'https://disease.sh/v3/covid-19/')}all")
+          stub_request(:get, 'https://disease.sh/v3/covid-19/all')
             .to_timeout
         end
 

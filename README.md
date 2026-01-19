@@ -12,14 +12,15 @@
 
 ## Tech
 
+- [Next.js](https://nextjs.org/) (Frontend)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Ruby](https://www.ruby-lang.org/en/)
-- [Rails](https://rubyonrails.org/)
-- [Bootstrap](https://getbootstrap.com/)
+- [Rails](https://rubyonrails.org/) (API Backend)
+- [Bootstrap](https://getbootstrap.com/) (Backend UI)
 - [Postgres](https://www.postgresql.org/)
 - [Docker](https://www.docker.com/)
 - [Redis](https://redis.io/)
 - [Sidekiq](https://sidekiq.org/)
-- [jQuery](https://jquery.com/)
 - [Datatable](https://datatables.net/)
 
 ## Requirements
@@ -76,7 +77,21 @@ docker-compose run web rake spec
 
 ## Application
 
-You can visit the UI at `http://localhost:3000`
+The application is split into two parts:
+
+- **Frontend (Next.js)**: `http://localhost:3001` - This is the main modern dashboard.
+- **Backend API (Rails)**: `http://localhost:3000` - Serves JSON API and legacy admin views.
+
+## Local CI / GitHub Actions
+
+You can run GitHub Actions locally using [act](https://github.com/nektos/act).
+Prerequisite: `brew install act` (if not already installed).
+
+Run all workflows:
+```bash
+act -l  # List available jobs
+act     # Run the default workflow
+```
 You can find the default user credentials inside the `db/seeds.rb` file
 
 ## Sidekiq and CronJob

@@ -13,7 +13,7 @@ class SymptomsController < ApplicationController
 
   def diagnosis
     @diagnosis_data = ReportService.process_diagnosis_data(submit_params)
-    return flash[:notice] = 'Here are the diagnosis for the symptoms' unless @diagnosis_data.blank?
+    return flash[:notice] = 'Here are the diagnosis for the symptoms' if @diagnosis_data.present?
 
     flash[:notice] = 'Invalid Input'
     redirect_to symptoms_path

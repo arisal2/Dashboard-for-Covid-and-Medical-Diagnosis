@@ -179,7 +179,7 @@ RSpec.describe ReportService do
         result = JSON.parse(described_class.process_covid_map_data('countries', 'cases'))
 
         expect(result.length).to eq(2)
-        expect(result.map { |c| c['name'] }).not_to include('Test Country')
+        expect(result.pluck('name')).not_to include('Test Country')
       end
 
       it 'includes country code and value' do

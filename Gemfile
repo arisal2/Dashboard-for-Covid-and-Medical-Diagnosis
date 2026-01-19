@@ -18,15 +18,15 @@ gem 'pg', '~> 1.5'
 gem 'puma', '~> 6.4'
 
 # Modern asset pipeline
-gem 'propshaft'
 gem 'importmap-rails'
+gem 'propshaft'
 
 # Use dartsass for SCSS compilation
 gem 'dartsass-rails', '~> 0.5'
 
 # Hotwire - modern interactive applications
-gem 'turbo-rails'
 gem 'stimulus-rails'
+gem 'turbo-rails'
 
 # Build JSON APIs with ease
 gem 'jbuilder', '~> 2.11'
@@ -84,18 +84,19 @@ group :development, :test do
   gem 'truemail-rspec', require: false
 
   # Code quality
+  gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
 
 group :development do
   gem 'brakeman', require: false
-  
+
   # Access an interactive console on exception pages
   gem 'web-console'
-  
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem 'rack-mini-profiler'
-  
+
   gem 'listen', '~> 3.9'
 end
 
@@ -103,10 +104,10 @@ group :test do
   # System testing
   gem 'capybara', '~> 3.40'
   gem 'selenium-webdriver', '~> 4.16'
-  
+
   # HTTP mocking
   gem 'webmock', '~> 3.19'
-  
+
   # JUnit format for CI
   gem 'rspec_junit_formatter', '~> 0.6'
 end

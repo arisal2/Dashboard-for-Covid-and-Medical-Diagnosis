@@ -1,4 +1,4 @@
-# frozen-string_literal: true
+# frozen_string_literal: true
 
 # Class for Mailer Job
 class MarketwebMailerJob < ApplicationJob

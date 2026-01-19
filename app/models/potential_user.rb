@@ -11,10 +11,10 @@ class PotentialUser < ApplicationRecord
   end
 
   def self.validate_email
-    PotentialUser.all.map do |user|
+    PotentialUser.all.filter_map do |user|
       next unless Truemail.valid?(user.email)
 
       user.email
-    end.compact
+    end
   end
 end

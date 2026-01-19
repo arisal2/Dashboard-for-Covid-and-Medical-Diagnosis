@@ -11,14 +11,14 @@
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="input-group form-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><%= fa_icon "user" %></span>
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
           </div>
           <%= f.email_field :email, autofocus: true, class: 'form-control' %>
         </div>
 
         <div class="input-group form-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><%= fa_icon "key" %></i></span>
+            <span class="input-group-text"><i class="fas fa-key"></i></span>
           </div>
           <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
         </div>

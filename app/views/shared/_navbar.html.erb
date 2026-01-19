@@ -1,47 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon burger-button"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <a class="navbar-brand" href="/"><%= image_tag('medical_nav.ico') %></a>
-    <ul class="nav nav-navbar">
-      <li class="nav-item">
-        <%= fa_icon "medkit" %>&nbsp;<%= link_to "Active Cases", world_data_dashboards_path %>&nbsp;&nbsp;
-      </li>
-      &nbsp;&nbsp;
-      <li class="nav-item">
-        <%= fa_icon "stethoscope" %>&nbsp;<%= link_to "Vaccine Data", vaccination_dashboards_path %>&nbsp;&nbsp;
-      </li>
-      &nbsp;&nbsp;
-      <li class="nav-item">
-        <%= fa_icon "map-o" %>&nbsp;<%= link_to "Maps", world_map_dashboards_path %>&nbsp;&nbsp;
-      </li>
-      &nbsp;&nbsp;
-      <li class="nav-item">
-        <%= fa_icon "bar-chart" %>&nbsp;<%= link_to "Reports", covid_chart_dashboards_path %>&nbsp;&nbsp;
-      </li>
-      <% if user_signed_in? %>
-      <li class="nav-item">
-        <%= fa_icon "user-md" %>&nbsp;<%= link_to 'Diagnosis', symptoms_path %>&nbsp;&nbsp;
-      </li>
-      <li class="nav-item">
-        <%= fa_icon "file" %>&nbsp;<%= link_to 'Potential Users', potential_users_path %>&nbsp;
-      </li>
-      <% end %>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <% if user_signed_in? %>
-      <li class="nav-item">
-        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
-      </li>
-      <% else %>
-      <li class="nav-item">
-        <%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'Register', new_user_registration_path, class: 'nav-link' %>
-      </li>
-      <% end %>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <%= image_tag('medical_nav.ico', height: 30) %>
+      <span class="ms-2">Fluffy Octo</span>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to world_data_dashboards_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-kit-medical"></i> Active Cases
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to vaccination_dashboards_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-syringe"></i> Vaccine Data
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to world_map_dashboards_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-map"></i> Maps
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to covid_chart_dashboards_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-chart-bar"></i> Reports
+          <% end %>
+        </li>
+        <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to symptoms_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-stethoscope"></i> Diagnosis
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to potential_users_path, class: 'nav-link' do %>
+            <i class="fa-solid fa-users"></i> Potential Users
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+      
+      <ul class="navbar-nav">
+        <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn btn-outline-light btn-sm' %>
+        </li>
+        <% else %>
+        <li class="nav-item">
+          <%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Register', new_user_registration_path, class: 'btn btn-primary btn-sm ms-2' %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </nav>

@@ -1,117 +1,169 @@
-<div class="container-fluid  col-md-11 top-header">
-	<div id="covid-area-chart"></div>
-	<div id="covid-bar-chart"></div>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h2 class="mb-1">
+      <i class="fa-solid fa-chart-line text-primary"></i>
+      COVID-19 Reports & Analytics
+    </h2>
+    <p class="text-muted mb-0">Visual analytics of global pandemic data</p>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row g-4">
+    <!-- Area Chart -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-chart-area text-info"></i>
+            Cumulative Worldwide Cases Timeline
+          </h5>
+        </div>
+        <div class="card-body">
+          <div id="covid-area-chart" style="min-height: 400px;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bar Chart -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-chart-bar text-success"></i>
+            Tests by Continent
+          </h5>
+        </div>
+        <div class="card-body">
+          <div id="covid-bar-chart" style="min-height: 400px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-	Highcharts.chart('covid-area-chart', {
-		chart: {
-			type: 'areaspline'
-		},
-		title: {
-			text: 'Total Cumulative Worldwide Cases (Since 2020-01-21)'
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'left',
-			verticalAlign: 'top',
-			x: 150,
-			y: 100,
-			floating: true,
-			borderWidth: 1,
-			backgroundColor:
-				Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
-		},
-		xAxis: {
-			categories: <%= raw area_chart_data(:date) %>,
-			plotBands: [{
-				from: 4.5,
-				to: 6.5,
-				color: 'rgba(68, 170, 213, .2)'
-			}]
-		},
-		yAxis: {
-			title: {
-				text: 'Number of Cases'
-			}
-		},
-		tooltip: {
-			shared: true,
-		},
-		credits: {
-			enabled: false
-		},
-		plotOptions: {
-			areaspline: {
-				fillOpacity: 0.5
-			}
-		},
-		series: [{
-			name: 'recovered',
-			data: <%= area_chart_data(:recovered) %>
-		}, {
-			name: 'deaths',
-			data: <%= area_chart_data(:deaths) %>
-		},{
-			name: 'active',
-			data: <%= area_chart_data(:active) %>
-		}]
-	});
+document.addEventListener('turbo:load', function() {
+  // Area Chart - Timeline
+  Highcharts.chart('covid-area-chart', {
+    chart: {
+      type: 'areaspline',
+      style: {
+        fontFamily: 'Inter, sans-serif'
+      }
+    },
+    title: {
+      text: 'Total Cumulative Worldwide Cases (Since 2020-01-21)',
+      style: { fontWeight: '600' }
+    },
+    colors: ['#10b981', '#ef4444', '#f59e0b'],
+    legend: {
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom',
+      borderWidth: 0
+    },
+    xAxis: {
+      categories: <%= raw area_chart_data(:date) %>,
+      labels: {
+        step: Math.ceil(<%= area_chart_data(:date).length %> / 10)
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Number of Cases'
+      },
+      labels: {
+        formatter: function() {
+          return Highcharts.numberFormat(this.value / 1000000, 0) + 'M';
+        }
+      }
+    },
+    tooltip: {
+      shared: true,
+      valueFormatter: function() {
+        return Highcharts.numberFormat(this, 0);
+      }
+    },
+    credits: { enabled: false },
+    plotOptions: {
+      areaspline: {
+        fillOpacity: 0.3,
+        marker: { enabled: false }
+      }
+    },
+    series: [{
+      name: 'Recovered',
+      data: <%= area_chart_data(:recovered) %>
+    }, {
+      name: 'Deaths',
+      data: <%= area_chart_data(:deaths) %>
+    }, {
+      name: 'Active',
+      data: <%= area_chart_data(:active) %>
+    }]
+  });
 
-	Highcharts.chart('covid-bar-chart', {
-		chart: {
-			type: 'bar'
-		},
-		title: {
-			text: 'Covid-19 test per continent'
-		},
-		xAxis: {
-			categories: <%= raw bar_chart_data(:continents) %>,
-			title: {
-				text: null
-			}
-		},
-		yAxis: {
-			min: 0,
-			title: {
-				text: 'Population (millions)',
-				align: 'high'
-			},
-			labels: {
-				overflow: 'justify'
-			}
-		},
-		tooltip: {
-			valueSuffix: ' millions'
-		},
-		plotOptions: {
-			bar: {
-				dataLabels: {
-					enabled: true
-				}
-			}
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'top',
-			x: -40,
-			y: 80,
-			floating: true,
-			borderWidth: 1,
-			backgroundColor:
-				Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-			shadow: true
-		},
-		credits: {
-			enabled: false
-		},
-		series: [{
-			name: 'Population',
-			data: <%= bar_chart_data(:population) %>
-		}, {
-			name: 'Number of Tests',
-			data: <%= bar_chart_data(:tests) %>
-		}]
-	});
+  // Bar Chart - Tests by Continent
+  Highcharts.chart('covid-bar-chart', {
+    chart: {
+      type: 'bar',
+      style: {
+        fontFamily: 'Inter, sans-serif'
+      }
+    },
+    title: {
+      text: 'COVID-19 Tests per Continent',
+      style: { fontWeight: '600' }
+    },
+    colors: ['#6366f1', '#06b6d4'],
+    xAxis: {
+      categories: <%= raw bar_chart_data(:continents) %>,
+      title: { text: null }
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Count',
+        align: 'high'
+      },
+      labels: {
+        formatter: function() {
+          return Highcharts.numberFormat(this.value / 1000000000, 1) + 'B';
+        },
+        overflow: 'justify'
+      }
+    },
+    tooltip: {
+      valueFormatter: function() {
+        return Highcharts.numberFormat(this, 0);
+      }
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true,
+          formatter: function() {
+            return Highcharts.numberFormat(this.y / 1000000, 0) + 'M';
+          }
+        },
+        borderRadius: 4
+      }
+    },
+    legend: {
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom',
+      borderWidth: 0
+    },
+    credits: { enabled: false },
+    series: [{
+      name: 'Population',
+      data: <%= bar_chart_data(:population) %>
+    }, {
+      name: 'Number of Tests',
+      data: <%= bar_chart_data(:tests) %>
+    }]
+  });
+});
 </script>

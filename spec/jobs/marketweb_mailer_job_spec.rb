@@ -6,6 +6,7 @@ RSpec.describe MarketwebMailerJob, type: :job do
   describe '#perform' do
     context 'when jobs are executed' do
       include ActiveJob::TestHelper
+
       subject(:job) { described_class.perform_later }
 
       it 'queues the job' do

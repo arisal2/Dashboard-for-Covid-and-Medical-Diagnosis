@@ -5,7 +5,7 @@ module DashboardsHelper
   def latest_update
     return if strip_latest_update_time.blank?
 
-    Time.at(strip_latest_update_time).strftime('%d/%m/%Y')
+    Time.zone.at(strip_latest_update_time).strftime('%d/%m/%Y')
   end
 
   def strip_latest_update_time

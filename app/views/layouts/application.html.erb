@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>FluffyOctoSystem</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <title>Fluffy Octo System</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Highchart -->
+    <!-- Highcharts for Maps -->
     <script src="https://code.highcharts.com/maps/highmaps.js"></script>
     <script src="https://code.highcharts.com/maps/modules/data.js"></script>
     <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
 
-    <!-- Flag sprites service provided by Martijn Lafeber, https://github.com/lafeber/world-flags-sprite/blob/master/LICENSE -->
-    <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
     
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= favicon_link_tag asset_path('medical.ico') %>
+    <!-- DataTables JS (after jQuery is loaded) -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" defer></script>
+    
+    <%= favicon_link_tag "medical.ico" %>
   </head>
 
   <body>
     <%= render 'shared/navbar' %>
+    
     <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, class: "alert alert-info" %>
+      <div class="alert alert-<%= name == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
+        <%= msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     <% end %>
+    
     <%= yield %>
   </body>
 </html>

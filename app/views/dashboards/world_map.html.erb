@@ -1,91 +1,174 @@
-<div class="container-fluid col-md-11 top-header">
-	<div id="covid-cases"></div>
-	<div id="covid-deaths"></div>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h2 class="mb-1">
+      <i class="fa-solid fa-earth-americas text-info"></i>
+      Global COVID-19 Maps
+    </h2>
+    <p class="text-muted mb-0">Interactive world maps showing cases and deaths by country</p>
+  </div>
+
+  <!-- Maps Row -->
+  <div class="row g-4">
+    <!-- Cases Map -->
+    <div class="col-12 col-xl-6">
+      <div class="card h-100">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-virus text-warning"></i>
+            COVID-19 Cases by Country
+          </h5>
+        </div>
+        <div class="card-body">
+          <div id="covid-cases" style="min-height: 450px;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Deaths Map -->
+    <div class="col-12 col-xl-6">
+      <div class="card h-100">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-heart-crack text-danger"></i>
+            COVID-19 Deaths by Country
+          </h5>
+        </div>
+        <div class="card-body">
+          <div id="covid-deaths" style="min-height: 450px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
-	Highcharts.mapChart('covid-cases', {
-		chart: {
-			map: 'custom/world'
-		},
+document.addEventListener('turbo:load', function() {
+  // Cases Map
+  Highcharts.mapChart('covid-cases', {
+    chart: {
+      map: 'custom/world',
+      style: { fontFamily: 'Inter, sans-serif' }
+    },
+    title: {
+      text: 'Total Confirmed Cases',
+      style: { fontWeight: '600' }
+    },
+    subtitle: {
+      text: 'Click and drag to zoom, use mouse wheel to navigate'
+    },
+    mapNavigation: {
+      enabled: true,
+      enableDoubleClickZoomTo: true,
+      buttonOptions: {
+        verticalAlign: 'bottom'
+      }
+    },
+    colorAxis: {
+      min: 1,
+      max: 50000000,
+      type: 'logarithmic',
+      stops: [
+        [0, '#fcf8e3'],
+        [0.25, '#f7d358'],
+        [0.5, '#f59e0b'],
+        [0.75, '#dc2626'],
+        [1, '#7f1d1d']
+      ]
+    },
+    legend: {
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom'
+    },
+    credits: { enabled: false },
+    series: [{
+      data: <%= raw @covid_cases_map_data %>,
+      joinBy: ['iso-a3', 'code3'],
+      name: 'Cases',
+      states: {
+        hover: {
+          color: '#10b981',
+          borderColor: '#065f46'
+        }
+      },
+      tooltip: {
+        pointFormat: '{point.name}: <b>{point.value:,.0f}</b> cases'
+      }
+    }]
+  });
 
-		title: {
-			text: 'Covid Cases'
-		},
-
-		mapNavigation: {
-			enabled: true,
-			enableDoubleClickZoomTo: true
-		},
-
-		colorAxis: {
-			min: 1,
-			max: 10000000,
-			type: 'logarithmic'
-		},
-
-		series: [{
-			data: <%= raw @covid_cases_map_data %>,
-			joinBy: ['iso-a3', 'code3'],
-			name: 'Covid Cases',
-			states: {
-				hover: {
-					color: '#a4edba'
-				}
-			},
-		}]
-	});
-
-	Highcharts.mapChart('covid-deaths', {
-		chart: {
-			map: 'custom/world'
-		},
-
-		title: {
-			text: 'Covid Deaths'
-		},
-
-		mapNavigation: {
-			enabled: true,
-			enableDoubleClickZoomTo: true
-		},
-
-		colorAxis: {
-			min: 1,
-			max: 1000000,
-			type: 'logarithmic',
-			dataClasses: [{
-				color: "#e1eb34",
-				from: 1,
-				to: 1000
-			}, {
-				color: "#ebba34",
-				from: 1000,
-				to: 10000
-			}, {
-				color: "#eb8034",
-				from: 1000,
-				to: 10000
-			}, {
-				color: "#eb5634",
-				from: 10000,
-				to: 100000
-			}, {
-				color: "#e30000",
-				from: 100000,
-				to: 1000000
-			}]
-		},
-
-		series: [{
-			data: <%= raw @covid_death_map_data %>,
-			joinBy: ['iso-a3', 'code3'],
-			name: 'Covid Death',
-			states: {
-				hover: {
-					color: '#a4edba'
-				}
-			},
-		}]
-	});
+  // Deaths Map
+  Highcharts.mapChart('covid-deaths', {
+    chart: {
+      map: 'custom/world',
+      style: { fontFamily: 'Inter, sans-serif' }
+    },
+    title: {
+      text: 'Total Deaths',
+      style: { fontWeight: '600' }
+    },
+    subtitle: {
+      text: 'Color scale by death count (logarithmic)'
+    },
+    mapNavigation: {
+      enabled: true,
+      enableDoubleClickZoomTo: true,
+      buttonOptions: {
+        verticalAlign: 'bottom'
+      }
+    },
+    colorAxis: {
+      min: 1,
+      max: 1000000,
+      type: 'logarithmic',
+      dataClasses: [{
+        color: '#fef3c7',
+        from: 1,
+        to: 1000,
+        name: '< 1K'
+      }, {
+        color: '#fcd34d',
+        from: 1000,
+        to: 10000,
+        name: '1K - 10K'
+      }, {
+        color: '#f97316',
+        from: 10000,
+        to: 50000,
+        name: '10K - 50K'
+      }, {
+        color: '#dc2626',
+        from: 50000,
+        to: 200000,
+        name: '50K - 200K'
+      }, {
+        color: '#7f1d1d',
+        from: 200000,
+        to: 1000000,
+        name: '> 200K'
+      }]
+    },
+    legend: {
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom'
+    },
+    credits: { enabled: false },
+    series: [{
+      data: <%= raw @covid_death_map_data %>,
+      joinBy: ['iso-a3', 'code3'],
+      name: 'Deaths',
+      states: {
+        hover: {
+          color: '#3b82f6',
+          borderColor: '#1e40af'
+        }
+      },
+      tooltip: {
+        pointFormat: '{point.name}: <b>{point.value:,.0f}</b> deaths'
+      }
+    }]
+  });
+});
 </script>

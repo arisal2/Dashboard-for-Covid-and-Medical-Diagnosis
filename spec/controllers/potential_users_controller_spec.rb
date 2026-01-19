@@ -24,7 +24,7 @@ RSpec.describe PotentialUsersController, type: :controller do
   describe 'POST #import' do
     let(:potential_users_import) { post :import, params: params }
     context 'when logged in' do
-      let(:params) { { file: Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/files/example.csv") } }
+      let(:params) { { file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/example.csv').to_s) } }
 
       it 'redirects to the home page' do
         potential_users_import

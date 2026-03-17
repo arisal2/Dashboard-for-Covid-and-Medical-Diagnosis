@@ -38,7 +38,7 @@ gem 'redis', '~> 5.0'
 gem 'bcrypt', '~> 3.1.7'
 
 # Authentication
-gem 'devise', '~> 4.9'
+gem 'devise', '~> 5.0'
 
 # HTTP client
 gem 'faraday', '~> 2.9'

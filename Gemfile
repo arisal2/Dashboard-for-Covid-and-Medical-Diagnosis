@@ -15,7 +15,7 @@ gem 'rails', '~> 7.2.0'
 gem 'pg', '~> 1.5'
 
 # Use Puma as the app server
-gem 'puma', '~> 6.4'
+gem 'puma', '~> 7.2'
 
 # Modern asset pipeline
 gem 'importmap-rails'

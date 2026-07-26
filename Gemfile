@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.11'
 gem 'redis', '~> 5.0'
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.22'
 
 # Authentication
 gem 'devise', '~> 4.9'

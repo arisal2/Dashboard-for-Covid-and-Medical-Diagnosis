@@ -41,7 +41,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 4.9'
 
 # HTTP client
-gem 'faraday', '~> 2.9'
+gem 'faraday', '~> 2.14'
 gem 'rack-cors'
 
 # Background jobs
